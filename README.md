@@ -1,7 +1,4 @@
 # Trino Excel Connector
-
-## Overview
-
 The Trino Excel Connector allows Trino to query data from Microsoft Excel files (`.xls` and `.xlsx`) that are packaged within a ZIP archive accessible via a URL. Each Excel file within the ZIP archive is treated as a schema in Trino. Each sheet within an Excel file is treated as a table. The connector assumes the first row of each sheet contains the column headers.
 
 ## Features
