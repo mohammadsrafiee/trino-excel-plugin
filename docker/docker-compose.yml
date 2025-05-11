@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/html:/usr/share/nginx/html:ro
+    restart: unless-stopped
+
+  trino:
+    container_name: trino
+    image: "trinodb/trino:475"
+    depends_on:
+      - nginx
+    ports:
+      - "5005:5005"
+      - "8060:8060"
+    volumes:
+      - ./trino/etc:/usr/lib/trino/etc:ro
+      - ./trino/etc/catalog:/etc/trino/catalog
+      - ./trino/etc/config.properties:/etc/trino/config.properties
+      # Note: first build plugin and put in plugin/excel directory then use docker-compose up
+      #       (./trino-excel-plugin/gradlew  clean :shadowJar -x test)
+      - ./trino/plugin/excel:/usr/lib/trino/plugin/excel
+    restart: unless-stopped
